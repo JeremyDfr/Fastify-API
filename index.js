@@ -16,9 +16,9 @@ fastify.get('/', (request, reply) => {
     reply.send({hello: 'world'})
 })
 
-fastify.post('/task', function (request, reply) {
+fastify.post('/task', (request, reply) => {
     const taskRequest = request.body;
-    const taskCollection = this.mongo.db.collection('todo')
+    const taskCollection = fastify.mongo.db.collection('todo')
 
     taskCollection.insertOne(taskRequest, (err, result) => {
         if (err) {
@@ -29,8 +29,8 @@ fastify.post('/task', function (request, reply) {
     })
 })
 
-fastify.get('/tasks', function (request, reply) {
-    const taskCollection = this.mongo.db.collection('todo')
+fastify.get('/tasks', (request, reply) => {
+    const taskCollection = fastify.mongo.db.collection('todo')
 
     taskCollection.find().toArray((err, result) => {
         if (err) {
@@ -41,8 +41,8 @@ fastify.get('/tasks', function (request, reply) {
     })
 })
 
-fastify.get('/task/:id', function (request, reply) {
-    const taskCollection = this.mongo.db.collection('todo')
+fastify.get('/task/:id', (request, reply) => {
+    const taskCollection = fastify.mongo.db.collection('todo')
 
     const id = this.mongo.ObjectId(request.params.id)
     taskCollection.findOne({_id: id}, (err, result) => {
@@ -54,8 +54,8 @@ fastify.get('/task/:id', function (request, reply) {
     })
 })
 
-fastify.put('/task/:id', function (request, reply) {
-    const taskCollection = this.mongo.db.collection('todo')
+fastify.put('/task/:id', (request, reply) => {
+    const taskCollection = fastify.mongo.db.collection('todo')
 
     const id = this.mongo.ObjectId(request.params.id)
     taskCollection.updateOne({_id: id}, {$set: request.body}, (err, result) => {
@@ -67,8 +67,8 @@ fastify.put('/task/:id', function (request, reply) {
     })
 })
 
-fastify.delete('/task/:id', function (request, reply) {
-    const taskCollection = this.mongo.db.collection('todo')
+fastify.delete('/task/:id', (request, reply) => {
+    const taskCollection = fastify.mongo.db.collection('todo')
 
     const id = this.mongo.ObjectId(request.params.id)
     taskCollection.deleteOne({_id: id}, (err, result) => {
